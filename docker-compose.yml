@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  checkmk:
+    image: checkmk/check-mk-raw:2.3.0p1
+    container_name: checkmk
+    hostname: checkmk
+    ports:
+      - "8080:5000"  # Web UI
+      - "6556:6556"  # Livestatus
+    environment:
+      - CMK_SITE_ID=admin
+      - CMK_PASSWORD=Bonjov123
+    tmpfs:
+      - /opt/omd/sites/mysite/tmp:uid=1000,gid=1000
+    volumes:
+      - checkmk_data:/omd/sites
+    restart: always
+
+volumes:
+  checkmk_data:
